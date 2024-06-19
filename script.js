@@ -15,11 +15,11 @@ function fetchKeys() {
         .then(response => response.json())
         .then(data => {
             const resultDiv = document.getElementById("result");
-            resultDiv.innerHTML = `<strong>{"Key:"</strong> ${data.key}"}`;
+            resultDiv.innerHTML = `<strong>{"Key:"</strong>${data.key}"}`;
         })
         .catch(error => {
             console.error('Error fetching key:', error);
             const resultDiv = document.getElementById("result");
-            resultDiv.innerHTML = `<strong>{"Error:"</strong> Failed to fetch key. Please check the URL and try again."}`;
+            resultDiv.innerHTML = `<strong>{"Error:"</strong>Failed to fetch key. Please check the URL and try again."}`;
         });
 }
