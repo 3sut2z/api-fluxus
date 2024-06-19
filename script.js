@@ -3,10 +3,6 @@ function fetchKeys() {
     const apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=";
     const apiKey = "&api_key=E99l9NOctud3vmu6bPne";
 
-    // Get URL input value
-    const urlInput = document.getElementById("urlInput");
-    const url = urlInput.value.trim();
-
     // Extract HWID from URL
     const hwidStartIndex = url.indexOf("HWID=") + 5;
     const hwid = url.substring(hwidStartIndex);
