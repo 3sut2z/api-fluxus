@@ -3,28 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Fluxus Key Bypass</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .message {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Bypass Key Fluxus</h1>
-        <input type="text" id="urlInput" placeholder="Enter Link Get Key Fluxus...">
-        <strong id="keyDisplay"> </strong>
+        <strong id="keyDisplay" class="message"></strong>
         <div id="result"></div>
     </div>
     <script>
-        function fetchKeys() {
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        function fetchKeys(hwid) {
             // Base URL and API key
             const apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=";
             const apiKey = "&api_key=E99l9NOctud3vmu6bPne";
-
-            // Get URL input value
-            const urlInput = document.getElementById("urlInput").value.trim();
-
-            // Extract HWID from URL
-            const hwidStartIndex = urlInput.indexOf("HWID=") + 5;
-            const hwid = urlInput.substring(hwidStartIndex);
 
             // Make the API request to the original base URL
             fetch(apiBaseUrl + hwid + apiKey)
@@ -40,10 +46,21 @@
                 });
         }
 
-        // Trigger fetchKeys function on Enter key press
-        document.getElementById("urlInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                fetchKeys();
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParam = getParameterByName('url');
+
+            if (!urlParam) {
+                document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After url= Query"}`;
+            } else {
+                // Extract HWID from URL
+                const hwidStartIndex = urlParam.indexOf("HWID=") + 5;
+                const hwid = urlParam.substring(hwidStartIndex);
+
+                if (hwidStartIndex > 4 && hwid) {
+                    fetchKeys(hwid);
+                } else {
+                    document.getElementById("keyDisplay").innerHTML = `{"message":"Invalid URL. HWID not found."}`;
+                }
             }
         });
     </script>
