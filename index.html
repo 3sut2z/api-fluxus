@@ -5,16 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .message {
-            font-family: Courier New, monospace;
-            font-size: 16px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
-        <strong id="keyDisplay" class="message"></strong>
+        <strong id="keyDisplay"></strong>
         <div id="result"></div>
     </div>
     <script>
@@ -37,12 +31,12 @@
                 .then(response => response.json())
                 .then(data => {
                     const keyDisplay = document.getElementById("keyDisplay");
-                    keyDisplay.innerHTML = `{"Key:"<strong>${data.key}</strong>"}`;
+                    keyDisplay.innerHTML = `{"Key:" <strong>${data.key}</strong>}`;
                 })
                 .catch(error => {
                     console.error('Error fetching key:', error);
                     const keyDisplay = document.getElementById("keyDisplay");
-                    keyDisplay.innerHTML = `{"Error:"<strong>Failed to fetch key. Please check the URL and try again.</strong>"}`;
+                    keyDisplay.innerHTML = `{"Error:" <strong>Failed to fetch key. Please check the URL and try again.</strong>}`;
                 });
         }
 
