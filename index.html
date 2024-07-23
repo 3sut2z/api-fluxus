@@ -23,45 +23,42 @@
 
         function fetchKeys(hwid, apiKey) {
             // Base URL
-            let apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=" + hwid;
-
-            // Append api_key if available
-            if (apiKey) {
-                apiBaseUrl += "&api_key=" + apiKey;
-            }
+            const apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=" + hwid + "&api_key=c3a2c1f3-3e16-44f8-88a3-714e8dc39ef9" + apiKey;
 
             // Make the API request
             fetch(apiBaseUrl)
                 .then(response => response.json())
                 .then(data => {
                     const keyDisplay = document.getElementById("keyDisplay");
-                    keyDisplay.innerHTML = `{"Key:"<strong>${data.key}</strong>}`;
+                    keyDisplay.innerHTML = `{"Key:"<strong>${data.key}</strong>"}`;
                 })
                 .catch(error => {
                     console.error('Error fetching key:', error);
                     const keyDisplay = document.getElementById("keyDisplay");
-                    keyDisplay.innerHTML = `{"Error:"<strong>Failed to fetch key. Please check the URL and try again.</strong>}`;
+                    keyDisplay.innerHTML = `{"Error:"<strong>Failed to fetch key. Please check the URL and try again.</strong>"}`;
                 });
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-    const urlParam = getParameterByName('url');
-    const apiKey = "508f9c18-c725-429c-9caf-92df30716b8d"; // API key cố định
+            const urlParam = getParameterByName('url');
+            const apiKeyParam = getParameterByName('api_key');
 
-    if (!urlParam) {
-        document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After url= Query"}`;
-    } else {
-        // Extract HWID from URL
-        const hwidStartIndex = urlParam.indexOf("HWID=") + 5;
-        const hwid = urlParam.substring(hwidStartIndex);
+            if (!urlParam) {
+                document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After url= Query"}`;
+            } else if (!apiKeyParam) {
+                document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After api_key= Query"}`;
+            } else {
+                // Extract HWID from URL
+                const hwidStartIndex = urlParam.indexOf("HWID=") + 5;
+                const hwid = urlParam.substring(hwidStartIndex);
 
-        if (hwidStartIndex > 4 && hwid) {
-            fetchKeys(hwid, apiKey); // Sử dụng apiKey cố định
-        } else {
-            document.getElementById("keyDisplay").innerHTML = `{"message":"Invalid URL. HWID not found."}`;
-        }
-    }
-});
+                if (hwidStartIndex > 4 && hwid) {
+                    fetchKeys(hwid, apiKeyParam);
+                } else {
+                    document.getElementById("keyDisplay").innerHTML = `{"message":"Invalid URL. HWID not found."}`;
+                }
+            }
+        });
     </script>
 </body>
 </html>
