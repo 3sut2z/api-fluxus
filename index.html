@@ -23,20 +23,23 @@
 
         function fetchKeys(hwid) {
             // Base URL and API key
-            const apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=";
+            let apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=";
             const apiKey = "&api_key=E99l9NOctud3vmu6bPne";
+
+            // Append api_key to the URL
+            apiBaseUrl += hwid + "&api_key=8a42c59b-28c7-4446-b5f0-d4c6c2b6a6dc";
 
             // Make the API request to the original base URL
             fetch(apiBaseUrl + hwid + apiKey)
                 .then(response => response.json())
                 .then(data => {
                     const keyDisplay = document.getElementById("keyDisplay");
-                    keyDisplay.innerHTML = `{"Key:"<strong>${data.key}</strong>}"`;
+                    keyDisplay.innerHTML = `{"Key:"<strong>${data.key}"</strong>}`;
                 })
                 .catch(error => {
                     console.error('Error fetching key:', error);
                     const keyDisplay = document.getElementById("keyDisplay");
-                    keyDisplay.innerHTML = `{"Error:"<strong>Failed to fetch key. Please check the URL and try again.</strong>"}`;
+                    keyDisplay.innerHTML = `{"Error:"<strong>Failed to fetch key. Please check the URL and try again."</strong>}`;
                 });
         }
 
@@ -60,3 +63,4 @@
     </script>
 </body>
 </html>
+
