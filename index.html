@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Fetch Key</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,41 +23,45 @@
 
         const fixedApiKey = 'c3a2c1f3-3e16-44f8-88a3-714e8dc39ef9';
 
-function fetchKeys(hwid) {
-    // URL cơ sở
-    const apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=" + hwid + "&api_key=" + fixedApiKey;
+        function fetchKeys(hwid) {
+            // URL cơ sở
+            const apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=" + encodeURIComponent(hwid) + "&api_key=" + fixedApiKey;
 
-    // Thực hiện yêu cầu API
-    fetch(apiBaseUrl)
-        .then(response => response.json())
-        .then(data => {
-            const keyDisplay = document.getElementById("keyDisplay");
-            keyDisplay.innerHTML = `{"Key:"<strong>${data.key}</strong>"}`;
-        })
-        .catch(error => {
-            console.error('Lỗi khi lấy key:', error);
-            const keyDisplay = document.getElementById("keyDisplay");
-            keyDisplay.innerHTML = `{"Lỗi:"<strong>Không thể lấy key. Vui lòng kiểm tra lại URL và thử lại.</strong>"}`;
-        });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    const urlParam = getParameterByName('url');
-
-    if (!urlParam) {
-        document.getElementById("keyDisplay").innerHTML = `{"Thông báo":"Thiếu liên kết. Vui lòng thêm sau url= Query"}`;
-    } else {
-        // Trích xuất HWID từ URL
-        const hwidStartIndex = urlParam.indexOf("HWID=") + 5;
-        const hwid = urlParam.substring(hwidStartIndex);
-
-        if (hwidStartIndex > 4 && hwid) {
-            fetchKeys(hwid);
-        } else {
-            document.getElementById("keyDisplay").innerHTML = `{"Thông báo":"URL không hợp lệ. Không tìm thấy HWID."}`;
+            // Thực hiện yêu cầu API
+            fetch(apiBaseUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const keyDisplay = document.getElementById("keyDisplay");
+                    if (data.key) {
+                        keyDisplay.innerHTML = `{"Key:"<strong>${data.key}</strong>"}`;
+                    } else {
+                        keyDisplay.innerHTML = `{"Lỗi:"<strong>${data.message || 'Không thể lấy key.'}</strong>"}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi khi lấy key:', error);
+                    const keyDisplay = document.getElementById("keyDisplay");
+                    keyDisplay.innerHTML = `{"Lỗi:"<strong>Không thể kết nối đến API. Vui lòng kiểm tra lại URL và thử lại.</strong>"}`;
+                });
         }
-    }
-});
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParam = getParameterByName('url');
+
+            if (!urlParam) {
+                document.getElementById("keyDisplay").innerHTML = `{"Thông báo":"Thiếu liên kết. Vui lòng thêm sau url= Query"}`;
+            } else {
+                // Trích xuất HWID từ URL
+                const hwidStartIndex = urlParam.indexOf("HWID=") + 5;
+                const hwid = urlParam.substring(hwidStartIndex);
+
+                if (hwidStartIndex > 4 && hwid) {
+                    fetchKeys(hwid);
+                } else {
+                    document.getElementById("keyDisplay").innerHTML = `{"Thông báo":"URL không hợp lệ. Không tìm thấy HWID."}`;
+                }
+            }
+        });
     </script>
 </body>
 </html>
