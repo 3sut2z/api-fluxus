@@ -22,15 +22,15 @@
         }
 
         function fetchKeys(hwid) {
-            // Base URL and API key
-            let apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=";
-            const apiKey = "&api_key=E99l9NOctud3vmu6bPne";
+            // Base URL
+            let apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=" + hwid;
 
-            // Append api_key to the URL
-            apiBaseUrl += hwid + "&api_key=8a42c59b-28c7-4446-b5f0-d4c6c2b6a6dc";
+            // Append api_key if available
+            const apiKey = "&api_key=8a42c59b-28c7-4446-b5f0-d4c6c2b6a6dc";
+            apiBaseUrl += apiKey;
 
-            // Make the API request to the original base URL
-            fetch(apiBaseUrl + hwid + apiKey)
+            // Make the API request
+            fetch(apiBaseUrl)
                 .then(response => response.json())
                 .then(data => {
                     const keyDisplay = document.getElementById("keyDisplay");
@@ -48,6 +48,11 @@
 
             if (!urlParam) {
                 document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After url= Query"}`;
+            
+            const api_keyParam = getParameterByName('api_key');
+            
+            if (!api_keyParam) {
+                document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After api_key= Query"}`;
             } else {
                 // Extract HWID from URL
                 const hwidStartIndex = urlParam.indexOf("HWID=") + 5;
@@ -63,4 +68,3 @@
     </script>
 </body>
 </html>
-
