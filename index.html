@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,10 +22,10 @@
         }
 
         function fetchKeys(hwid, apiKey) {
-            // Base URL
-            const apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=" + hwid + "&api_key=c3a2c1f3-3e16-44f8-88a3-714e8dc39ef9" + apiKey;
+            // URL cơ sở
+            const apiBaseUrl = "https://stickx.top/api-fluxus/?hwid=" + hwid + "&api_key=" + apiKey;
 
-            // Make the API request
+            // Thực hiện yêu cầu API
             fetch(apiBaseUrl)
                 .then(response => response.json())
                 .then(data => {
@@ -33,9 +33,9 @@
                     keyDisplay.innerHTML = `{"Key:"<strong>${data.key}</strong>"}`;
                 })
                 .catch(error => {
-                    console.error('Error fetching key:', error);
+                    console.error('Lỗi khi lấy key:', error);
                     const keyDisplay = document.getElementById("keyDisplay");
-                    keyDisplay.innerHTML = `{"Error:"<strong>Failed to fetch key. Please check the URL and try again.</strong>"}`;
+                    keyDisplay.innerHTML = `{"Lỗi:"<strong>Không thể lấy key. Vui lòng kiểm tra lại URL và thử lại.</strong>"}`;
                 });
         }
 
@@ -44,18 +44,18 @@
             const apiKeyParam = getParameterByName('api_key');
 
             if (!urlParam) {
-                document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After url= Query"}`;
+                document.getElementById("keyDisplay").innerHTML = `{"Thông báo":"Thiếu liên kết. Vui lòng thêm sau url= Query"}`;
             } else if (!apiKeyParam) {
-                document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After api_key= Query"}`;
+                document.getElementById("keyDisplay").innerHTML = `{"Thông báo":"Thiếu liên kết. Vui lòng thêm sau api_key= Query"}`;
             } else {
-                // Extract HWID from URL
+                // Trích xuất HWID từ URL
                 const hwidStartIndex = urlParam.indexOf("HWID=") + 5;
                 const hwid = urlParam.substring(hwidStartIndex);
 
                 if (hwidStartIndex > 4 && hwid) {
                     fetchKeys(hwid, apiKeyParam);
                 } else {
-                    document.getElementById("keyDisplay").innerHTML = `{"message":"Invalid URL. HWID not found."}`;
+                    document.getElementById("keyDisplay").innerHTML = `{"Thông báo":"URL không hợp lệ. Không tìm thấy HWID."}`;
                 }
             }
         });
