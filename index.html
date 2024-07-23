@@ -45,25 +45,23 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            const urlParam = getParameterByName('url');
-            const api_keyParam = getParameterByName('api_key');
+    const urlParam = getParameterByName('url');
+    const apiKey = "508f9c18-c725-429c-9caf-92df30716b8d"; // API key cố định
 
-            if (!urlParam) {
-                document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After url= Query"}`;
-            } else if (!api_keyParam) {
-                document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After api_key= Query"}`;
-            } else {
-                // Extract HWID from URL
-                const hwidStartIndex = urlParam.indexOf("HWID=") + 5;
-                const hwid = urlParam.substring(hwidStartIndex);
+    if (!urlParam) {
+        document.getElementById("keyDisplay").innerHTML = `{"message":"Missing The Link. Please Add It After url= Query"}`;
+    } else {
+        // Extract HWID from URL
+        const hwidStartIndex = urlParam.indexOf("HWID=") + 5;
+        const hwid = urlParam.substring(hwidStartIndex);
 
-                if (hwidStartIndex > 4 && hwid) {
-                    fetchKeys(hwid, api_keyParam);
-                } else {
-                    document.getElementById("keyDisplay").innerHTML = `{"message":"Invalid URL. HWID not found."}`;
-                }
-            }
-        });
+        if (hwidStartIndex > 4 && hwid) {
+            fetchKeys(hwid, apiKey); // Sử dụng apiKey cố định
+        } else {
+            document.getElementById("keyDisplay").innerHTML = `{"message":"Invalid URL. HWID not found."}`;
+        }
+    }
+});
     </script>
 </body>
 </html>
